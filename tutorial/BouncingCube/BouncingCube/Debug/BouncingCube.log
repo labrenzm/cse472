@@ -1,0 +1,36 @@
+﻿Build started 4/17/2014 12:49:19 PM.
+     1>Project "C:\Users\sklum\cse472\tutorial\BouncingCube\BouncingCube\BouncingCube.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\BouncingCube.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\BouncingCube.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Cube.cpp
+         Cube.cpp
+       ResourceCompile:
+         All outputs are up-to-date.
+       ManifestResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\sklum\cse472\tutorial\BouncingCube\Debug\BouncingCube.exe" /INCREMENTAL /NOLOGO /MANIFEST /ManifestFile:"Debug\BouncingCube.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\sklum\cse472\tutorial\BouncingCube\Debug\BouncingCube.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\sklum\cse472\tutorial\BouncingCube\Debug\BouncingCube.lib" /MACHINE:X86 Debug\BouncingCube.res
+         Debug\BouncingCube.exe.embed.manifest.res
+         Debug\BouncingCube.obj
+         Debug\ChildView.obj
+         Debug\Cube.obj
+         Debug\MainFrm.obj
+         Debug\glew.obj
+         Debug\ShaderWnd.obj
+         Debug\stdafx.obj
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\BouncingCube.exe.embed.manifest" /manifest Debug\BouncingCube.exe.intermediate.manifest "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\Include\Manifest\dpiaware.manifest"
+         All outputs are up-to-date.
+       LinkEmbedManifest:
+         All outputs are up-to-date.
+         BouncingCube.vcxproj -> C:\Users\sklum\cse472\tutorial\BouncingCube\Debug\BouncingCube.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\BouncingCube.unsuccessfulbuild".
+         Touching "Debug\BouncingCube.lastbuildstate".
+     1>Done Building Project "C:\Users\sklum\cse472\tutorial\BouncingCube\BouncingCube\BouncingCube.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.48
