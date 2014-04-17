@@ -1,4 +1,3 @@
-
 // ChildView.cpp : implementation of the CChildView class
 //
 
@@ -188,7 +187,18 @@ void CChildView::CleanGL()
 
 void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
+	string direction;
 	switch (nChar) {
+
+	case VK_F1:
+		delete m_cube;
+		m_cube = new CCube(0.5);
+		KillTimer(m_nTimer);
+		m_nTimer = -1;
+		m_bTimer = false;
+		m_fT = 0.f;
+		InitGL();
+
 	case 'r':
 	case 'R':
 		ResetMatrix();
@@ -200,6 +210,26 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			KillTimer(m_nTimer);
 			m_nTimer = -1;
 		}
+
+	case VK_RIGHT:
+		direction = "right";
+		m_cube->Update(0.02, direction);
+		Invalidate();
+	case VK_LEFT:
+		direction = "left";
+		m_cube->Update(0.02, direction);
+		Invalidate();
+
+	case VK_UP:
+		direction = "up";
+		m_cube->Update(0.02, direction);
+		Invalidate();
+
+	case VK_DOWN:
+		direction = "down";
+		m_cube->Update(0.02, direction);
+		Invalidate();
+
 	}
 	CShaderWnd::OnKeyDown(nChar, nRepCnt, nFlags);
 }
@@ -207,7 +237,7 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CChildView::OnTimer(UINT_PTR nIDEvent)
 {
-	m_cube->Update(0.04);
+	m_cube->Update(0.02);
 	Invalidate();
 
 	CShaderWnd::OnTimer(nIDEvent);
