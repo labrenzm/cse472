@@ -95,7 +95,7 @@ void CCube::RenderGL(GLuint program)
 	glDrawArrays(GL_TRIANGLES, 0,  NumVertices); 
 }
 
-void CCube::Update(double dt)
+void CCube::Update(double dt, UINT key)
 {
 	//update velocity and angular velocity
 	v = 0.99*v+ dt* vec3(0, -9.8, 0);
@@ -142,7 +142,23 @@ void CCube::Update(double dt)
 			bCol = true;
 			n = vec3(0.f, 0.f, -1.f);
 			constraint_f.z += 10-p.z;
-		}
+		} else if (key == VK_LEFT && i == 0) {
+			bCol = true;
+			n = vec3(1.f, 0.f, 0.f);
+			constraint_f.x += -2;
+		}  else if (key == VK_RIGHT && i == 0) {
+			bCol = true;
+			n = vec3(-1.f, 0.f, 0.f);
+			constraint_f.x += 2;
+		}  else if (key == VK_DOWN && i == 0) {
+			bCol = true;
+			n = vec3(0.f, 1.f, 0.f);
+			constraint_f.y += -2;
+		}  else if (key == VK_UP && i == 0) {
+			bCol = true;
+			n = vec3(0.f, -1.f, 0.f);
+			constraint_f.y += 2;
+		} 
 
 		if (bCol) {
 			//Handle the collision: compute the impulse j, and update v and w
@@ -158,7 +174,7 @@ void CCube::Update(double dt)
 			}
 
 			//Constraint force to prevent drifting down the floor
-			constraint_f = dt * 100. * constraint_f;
+			constraint_f = dt * 50. * constraint_f;
 			v = v + constraint_f;
 			w = w + 6.*glm::cross(vec3(contact), constraint_f);
 		}

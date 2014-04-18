@@ -188,6 +188,14 @@ void CChildView::CleanGL()
 void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	switch (nChar) {
+	case VK_F1:
+		delete m_cube;
+		m_cube = new CCube(0.5);
+		KillTimer(m_nTimer);
+		m_nTimer = -1;
+		m_bTimer = false;
+		m_fT = 0.f;
+		InitGL();
 	case 'r':
 	case 'R':
 		ResetMatrix();
@@ -199,6 +207,23 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			KillTimer(m_nTimer);
 			m_nTimer = -1;
 		}
+		break;
+	case VK_RIGHT:
+		m_cube->Update(0.04, VK_RIGHT);
+		Invalidate();
+		break;
+	case VK_LEFT:
+		m_cube->Update(0.04, VK_LEFT);
+		Invalidate();
+		break;
+	case VK_UP:
+		m_cube->Update(0.04, VK_UP);
+		Invalidate();
+		break;
+	case VK_DOWN:
+		m_cube->Update(0.04, VK_DOWN);
+		Invalidate();
+		break;
 	}
 	CShaderWnd::OnKeyDown(nChar, nRepCnt, nFlags);
 }
