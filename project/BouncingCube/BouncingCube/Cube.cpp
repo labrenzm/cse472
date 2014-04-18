@@ -96,7 +96,7 @@ void CCube::RenderGL(GLuint program)
 	glDrawArrays(GL_TRIANGLES, 0,  NumVertices); 
 }
 
-void CCube::Update(double dt)
+void CCube::Update(double dt, string direction)
 {
 	//update velocity and angular velocity
 	v = 0.99*v+ dt* vec3(0, -9.8, 0);
@@ -119,19 +119,19 @@ void CCube::Update(double dt)
 		vec3 constraint_f=vec3(0.);
 
 		//Detect collision with which wall
-		if (p.x < -10.f) {
+		if (p.x < -10.f || direction == "left") {
 			bCol = true;
 			n = vec3(1.f, 0.f, 0.f);
 			constraint_f.x += -10-p.x;
-		} else if (p.x > 10.f) {
+		} else if (p.x > 10.f || direction == "right") {
 			bCol = true;
 			n = vec3(-1.f, 0.f, 0.f);
 			constraint_f.x += 10-p.x;
-		} else if (p.y < -10.f) {
+		} else if (p.y < -10.f || direction == "down") {
 			bCol = true;
 			n = vec3(0.f, 1.f, 0.f);
 			constraint_f.y += -10-p.y;
-		} else if (p.y > 10.f) {
+		} else if (p.y > 10.f || direction == "up") {
 			bCol = true;
 			n = vec3(0.f, -1.f, 0.f);
 			constraint_f.y += 10-p.y;
