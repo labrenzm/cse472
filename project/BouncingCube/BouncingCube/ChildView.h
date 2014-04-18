@@ -6,6 +6,7 @@
 #pragma once
 #include "ShaderWnd/ShaderWnd.h"
 #include "Cube.h"
+#include "graphics/GrTexture.h"
 // CChildView window
 
 class CChildView : public CShaderWnd
@@ -41,5 +42,9 @@ protected:
 public:
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+
+private:
+
+	CGrTexture m_brick;
 };
 

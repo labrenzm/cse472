@@ -19,7 +19,9 @@ CChildView::CChildView()
 	m_nTimer = -1;
 	m_fT = 0.f;
 	m_cube = new CCube(0.5);
-	m_wall = new CCube(10);
+
+	m_brick.LoadFile(L"textures/bricks.jpg");
+	m_wall = new CCube(10,true);
 }
 
 CChildView::~CChildView()
@@ -99,7 +101,7 @@ void CChildView::InitGL()
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
 	glBindTexture(GL_TEXTURE_2D, textures[1]);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TextureSize,TextureSize, 0, GL_RGB, GL_UNSIGNED_BYTE, image2);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_brick.Width(),m_brick.Height(), 0, GL_RGB, GL_UNSIGNED_BYTE, m_brick.ImageBits());
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -109,8 +111,6 @@ void CChildView::InitGL()
 	glBindTexture( GL_TEXTURE_2D, textures[0]);
 	glActiveTexture( GL_TEXTURE1 );
 	glBindTexture( GL_TEXTURE_2D, textures[1]);
-
-
 
 	m_cube->InitGL(m_program);
 	m_wall->InitGL(m_program);
@@ -141,7 +141,6 @@ void CChildView::InitGL()
 	//	glActiveTexture().
 	glUniform1i( glGetUniformLocation(m_program, "diffuse_mat"), 0);
 
-
 	m_nPVM = glGetUniformLocation(m_program, "mPVM");
 	m_nVM = glGetUniformLocation(m_program, "mVM");
 
@@ -166,7 +165,7 @@ void CChildView::RenderGL()
 
 	color4 light_ambient (0.2f, 0.2f, 0.2f, 1.f);
 	color4 material_ambient(.3f, .6f, .3f, 1.f);
-	color4 material_transpartent(.3f, .6f, .3f, 0.1f);
+	color4 material_transpartent(.3f, .3f, .3f, 1.f);
 
 	color4 ambient_product = light_ambient*material_ambient;
 

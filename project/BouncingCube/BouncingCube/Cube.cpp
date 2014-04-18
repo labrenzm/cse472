@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "Cube.h"
 
-CCube::CCube(double size)
+CCube::CCube(double size, bool open)
 {
 	// Vertices of a unit cube centered at origin, sides aligned with axes
 	vertex_positions[0] = point4( -size, -size,  size, 1.0 );
@@ -13,10 +13,9 @@ CCube::CCube(double size)
 	vertex_positions[6] = point4(  size,  size, -size, 1.0 );
 	vertex_positions[7] = point4(  size, -size, -size, 1.0 );
 
-
 	int Index = 0;
 
-	quad( 1, 0, 3, 2 , vertex_positions, Index);
+	if (!open) quad( 1, 0, 3, 2 , vertex_positions, Index);
 	quad( 2, 3, 7, 6 ,  vertex_positions, Index);
 	quad( 3, 0, 4, 7 ,  vertex_positions, Index);
 	quad( 6, 5, 1, 2 ,  vertex_positions, Index);
