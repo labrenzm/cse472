@@ -99,7 +99,6 @@ IDR_MAINFRAME MENU
 BEGIN
     POPUP "&File"
     BEGIN
-        MENUITEM "Save BMP File...",            ID_FILE_SAVEBMPFILE
         MENUITEM "E&xit",                       ID_APP_EXIT
     END
     POPUP "&View"
@@ -115,10 +114,6 @@ BEGIN
     END
     POPUP "&Step"
     BEGIN
-        MENUITEM "Torus",                       ID_STEP_TORUS
-        MENUITEM "Torus 2",                     ID_STEP_TORUS2
-        MENUITEM "Funky",                       ID_STEP_FUNKY
-        MENUITEM SEPARATOR
         MENUITEM "Spin",                        ID_STEP_SPIN
     END
 END

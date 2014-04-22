@@ -49,39 +49,26 @@ protected:
 	afx_msg void OnStepSpin();
 	afx_msg void OnUpdateStepSpin(CCmdUI* pCmdUI);
 	afx_msg void OnTimer(UINT nIDEvent);
-	afx_msg void OnStepTorus();
-	afx_msg void OnUpdateStepTorus(CCmdUI* pCmdUI);
     afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
     afx_msg void OnMouseMove(UINT nFlags, CPoint point);
     afx_msg void OnViewWireframe();
     afx_msg void OnUpdateViewWireframe(CCmdUI *pCmdUI);
-    afx_msg void OnStepTorus2();
-    afx_msg void OnUpdateStepTorus2(CCmdUI *pCmdUI);
     afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
     afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
-	afx_msg void OnDrawFunky();
-	afx_msg void OnUpdateStepFunky(CCmdUI *pCmdUI);
     //}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
-	void DrawFunky();
-    void DrawTori();
-    void Box(GLdouble p_x, GLdouble p_y, GLdouble p_z);
+	void DrawCylinder();
 
     bool m_wireframe;
-
-	int m_mode;
 
 	UINT m_spintimer;
 	double m_spinangle;
 
     CGrCamera       m_camera;
 
-    // The two tori...
-    CTorus      m_torus1;
     CCylinder   m_cylinder;
-	CGrTexture m_marble;
-	CGrTexture m_marble2;
+	CGrTexture	m_woodgrain;
 };
 
 /////////////////////////////////////////////////////////////////////////////

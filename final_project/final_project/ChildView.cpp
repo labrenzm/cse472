@@ -25,11 +25,9 @@ CChildView::CChildView()
 
     SetDoubleBuffer(true);
 
-	m_marble.LoadFile(L"textures/marble10.bmp");
-	m_marble2.LoadFile(L"textures/marble03.bmp");
+	m_woodgrain.LoadFile(L"textures/woodgrain.jpg");
 
-	m_torus1.SetTexture(&m_marble2);
-	m_cylinder.SetTexture(&m_marble);
+	m_cylinder.SetTexture(&m_woodgrain);
 }
 
 CChildView::~CChildView()
@@ -41,19 +39,13 @@ BEGIN_MESSAGE_MAP(CChildView,COpenGLWnd )
     ON_COMMAND(ID_STEP_SPIN, OnStepSpin)
     ON_UPDATE_COMMAND_UI(ID_STEP_SPIN, OnUpdateStepSpin)
     ON_WM_TIMER()
-    ON_COMMAND(ID_STEP_TORUS, OnStepTorus)
-    ON_UPDATE_COMMAND_UI(ID_STEP_TORUS, OnUpdateStepTorus)
     //}}AFX_MSG_MAP
     ON_WM_LBUTTONDOWN()
     ON_WM_MOUSEMOVE()
     ON_COMMAND(ID_VIEW_WIREFRAME, &CChildView::OnViewWireframe)
     ON_UPDATE_COMMAND_UI(ID_VIEW_WIREFRAME, &CChildView::OnUpdateViewWireframe)
-    ON_COMMAND(ID_STEP_TORUS2, &CChildView::OnStepTorus2)
-    ON_UPDATE_COMMAND_UI(ID_STEP_TORUS2, &CChildView::OnUpdateStepTorus2)
     ON_WM_RBUTTONDOWN()
     ON_WM_MOUSEWHEEL()
-	ON_COMMAND(ID_STEP_FUNKY, &CChildView::OnDrawFunky)
-	ON_UPDATE_COMMAND_UI(ID_STEP_FUNKY, &CChildView::OnUpdateStepFunky)
 END_MESSAGE_MAP()
 
 
@@ -117,34 +109,8 @@ void CChildView::OnGLDraw(CDC *pDC)
 	glPolygonMode(GL_FRONT, m_wireframe ? GL_LINE : GL_FILL);
 
     glPushMatrix();
-
-    switch(m_mode)
-    {
-
-    case ID_STEP_TORUS:
-        m_torus1.SetSteps1(50);
-        m_torus1.SetSteps2(20);
-
-        DrawTori();
-        break;
-
-    case ID_STEP_TORUS2:
-		glPushMatrix();
-        m_cylinder.Draw();
-		glPopMatrix();
-        break;
-
-	case ID_STEP_FUNKY:
-        glPushMatrix();
-        glRotated(m_spinangle / 3., 0, 1, 0);
-        DrawFunky();
-        glPopMatrix();
-
-		break;
-
-    }
-
-    glPopMatrix();
+	m_cylinder.Draw();
+	glPopMatrix();
 
     glFlush();
 }
@@ -165,37 +131,14 @@ void CChildView::OnUpdateViewWireframe(CCmdUI *pCmdUI)
     pCmdUI->SetCheck(m_wireframe);
 }
 
-//
-// Name :         CChildView::DrawTori()
-// Description :  Draw two tori linked together.
-//
-void CChildView::DrawTori()
+void CChildView::DrawCylinder()
 {
     glPushMatrix();
 
     // This rotation spins the tori
     glRotated(m_spinangle / 3, 0, 1, 0);
 
-    // The flips them down 45 degress so they look nicer.
-    glRotated(45., 1, 0, 0);
-
-    // First torus is left 2.5 cm
-    glPushMatrix();
-    glTranslated(-2.5, 0, 0);
-
-    m_torus1.Draw();
-
-    glPopMatrix();
-
-    // Second torus is right 2.5 cm and rotated
-    // around the X axis to right angles with the first
-    // torus.
-    glPushMatrix();
-
-    glTranslated(2.5, 0, 0);
-    glRotated(90., 1, 0, 0);
-
-    glPopMatrix();
+    m_cylinder.Draw();
 
     glPopMatrix();
 }
@@ -225,29 +168,6 @@ void CChildView::OnTimer(UINT nIDEvent)
     Invalidate();
 
     COpenGLWnd ::OnTimer(nIDEvent);
-}
-
-
-void CChildView::OnStepTorus() 
-{
-    m_mode = ID_STEP_TORUS;
-    Invalidate();
-}
-
-void CChildView::OnUpdateStepTorus(CCmdUI* pCmdUI) 
-{
-    pCmdUI->SetCheck(m_mode == ID_STEP_TORUS);
-}
-
-void CChildView::OnStepTorus2()
-{
-    m_mode = ID_STEP_TORUS2;
-    Invalidate();
-}
-
-void CChildView::OnUpdateStepTorus2(CCmdUI *pCmdUI)
-{
-    pCmdUI->SetCheck(m_mode == ID_STEP_TORUS2);
 }
 
 void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
@@ -281,21 +201,6 @@ BOOL CChildView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
     return COpenGLWnd::OnMouseWheel(nFlags, zDelta, pt);
 }
 
-
-void CChildView::OnDrawFunky()
-{
-	// TODO: Add your command handler code here
-    m_mode = ID_STEP_FUNKY;
-    Invalidate();
-}
-
-void CChildView::OnUpdateStepFunky(CCmdUI *pCmdUI)
-{
-	// TODO: Add your command update UI handler code here
-	pCmdUI->SetCheck(m_mode == ID_STEP_FUNKY);
-}
-
-
 double length3dv(double *v)
 {
    return sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
@@ -315,6 +220,7 @@ void normal(double *v1, double *v2, double *normal)
 // Description : Draw a funky object.
 //
 
+/*
 void CChildView::DrawFunky(void)
 {
 	GLdouble d[] = {0, 8, -5};
@@ -370,4 +276,4 @@ void CChildView::DrawFunky(void)
         glVertex3dv(a);
     glEnd();
 
-}
+} */
