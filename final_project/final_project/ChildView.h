@@ -13,9 +13,6 @@
 #include "graphics/GrTexture.h"	// Added by ClassView
 #include "graphics/GrCamera.h"
 #include "Torus.h"
-#include "Sphere.h"
-#include "Organs.h"
-#include "Mesh.h"
 #include "Cylinder.h"
 #include "graphics\grtexture.h"
 

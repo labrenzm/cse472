@@ -24,7 +24,7 @@ struct vertex {
 CCylinder::CCylinder(void)
 	: m_texture(NULL)
 {
-	m_radius = 5;
+	m_radius = 3;
 	m_length = 50;
 	m_lengthSteps = 50;
 	m_circumSteps = 50;
