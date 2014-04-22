@@ -25,9 +25,8 @@ CChildView::CChildView()
 
     SetDoubleBuffer(true);
 
-	m_woodgrain.LoadFile(L"textures/woodgrain.jpg");
-
-	m_cylinder.SetTexture(&m_woodgrain);
+	//m_woodgrain.LoadFile(L"textures/woodgrain.jpg");
+	//m_cylinder.SetTexture(&m_woodgrain);
 }
 
 CChildView::~CChildView()
@@ -112,6 +111,11 @@ void CChildView::OnGLDraw(CDC *pDC)
 	DrawCylinder();
 	glPopMatrix();
 
+	glPushMatrix();
+	glTranslated(0, 0, 3);
+	DrawChisel();
+	glPopMatrix();
+
     glFlush();
 }
 
@@ -142,6 +146,10 @@ void CChildView::DrawCylinder()
     glPopMatrix();
 }
 
+void CChildView::DrawChisel()
+{
+	m_chisel.Draw();
+}
 
 void CChildView::OnStepSpin() 
 {
@@ -190,7 +198,6 @@ void CChildView::OnRButtonDown(UINT nFlags, CPoint point)
 
     COpenGLWnd::OnRButtonDown(nFlags, point);
 }
-
 
 BOOL CChildView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 {

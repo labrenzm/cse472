@@ -76,6 +76,8 @@ void CCylinder::Draw()
 			v[2] = cos(angle)*m_radius;
 			glVertex3dv(v);
 
+			if (i==m_lengthSteps-1) caps.push_back(vertex(v[0],v[1],v[2]));
+
 			// Top left corner
 			v[0] = x;
 			v[1] = sin(angle)*m_radius;
@@ -83,7 +85,7 @@ void CCylinder::Draw()
 			glVertex3dv(v);
 
 			// Add caps
-			if (i==0 || i==(m_lengthSteps-1)) caps.push_back(vertex(v[0],v[1],v[2]));
+			if (i==0) caps.push_back(vertex(v[0],v[1],v[2]));
 
 			glEnd();
 		}

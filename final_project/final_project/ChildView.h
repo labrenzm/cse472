@@ -14,6 +14,7 @@
 #include "graphics/GrCamera.h"
 #include "Torus.h"
 #include "Cylinder.h"
+#include "Chisel.h"
 #include "graphics\grtexture.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -59,6 +60,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 private:
 	void DrawCylinder();
+	void DrawChisel();
 
     bool m_wireframe;
 
@@ -68,6 +70,7 @@ private:
     CGrCamera       m_camera;
 
     CCylinder   m_cylinder;
+	CChisel		m_chisel;
 	CGrTexture	m_woodgrain;
 };
 
