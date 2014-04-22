@@ -109,7 +109,7 @@ void CChildView::OnGLDraw(CDC *pDC)
 	glPolygonMode(GL_FRONT, m_wireframe ? GL_LINE : GL_FILL);
 
     glPushMatrix();
-	m_cylinder.Draw();
+	DrawCylinder();
 	glPopMatrix();
 
     glFlush();
@@ -135,8 +135,7 @@ void CChildView::DrawCylinder()
 {
     glPushMatrix();
 
-    // This rotation spins the tori
-    glRotated(m_spinangle / 3, 0, 1, 0);
+    glRotated(m_spinangle / 3, 1, 0, 0);
 
     m_cylinder.Draw();
 
