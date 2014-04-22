@@ -155,6 +155,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ChildView.cpp" />
+    <ClCompile Include="Cylinder.cpp" />
     <ClCompile Include="graphics\GrCamera.cpp" />
     <ClCompile Include="graphics\GrTexture.cpp" />
     <ClCompile Include="lab.cpp" />
@@ -172,6 +173,7 @@
   <ItemGroup>
     <ClInclude Include="ChildView.h" />
     <ClInclude Include="..\..\hackedheader\gl.h" />
+    <ClInclude Include="Cylinder.h" />
     <ClInclude Include="graphics\GrCamera.h" />
     <ClInclude Include="graphics\GrTexture.h" />
     <ClInclude Include="graphics\GrVector.h" />

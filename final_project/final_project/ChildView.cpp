@@ -29,7 +29,7 @@ CChildView::CChildView()
 	m_marble2.LoadFile(L"textures/marble03.bmp");
 
 	m_torus1.SetTexture(&m_marble2);
-	m_torus2.SetTexture(&m_marble);
+	m_cylinder.SetTexture(&m_marble);
 }
 
 CChildView::~CChildView()
@@ -124,19 +124,14 @@ void CChildView::OnGLDraw(CDC *pDC)
     case ID_STEP_TORUS:
         m_torus1.SetSteps1(50);
         m_torus1.SetSteps2(20);
-        m_torus2.SetSteps1(50);
-        m_torus2.SetSteps2(20);
 
         DrawTori();
         break;
 
     case ID_STEP_TORUS2:
-        m_torus1.SetSteps1(70);
-        m_torus1.SetSteps2(15);
-        m_torus2.SetSteps1(40);
-        m_torus2.SetSteps2(15);
-
-        DrawTori();
+		glPushMatrix();
+        m_cylinder.Draw();
+		glPopMatrix();
         break;
 
 	case ID_STEP_FUNKY:
@@ -199,8 +194,6 @@ void CChildView::DrawTori()
 
     glTranslated(2.5, 0, 0);
     glRotated(90., 1, 0, 0);
-
-    m_torus2.Draw();
 
     glPopMatrix();
 

@@ -16,6 +16,7 @@
 #include "Sphere.h"
 #include "Organs.h"
 #include "Mesh.h"
+#include "Cylinder.h"
 #include "graphics\grtexture.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -81,7 +82,7 @@ private:
 
     // The two tori...
     CTorus      m_torus1;
-    CTorus      m_torus2;
+    CCylinder   m_cylinder;
 	CGrTexture m_marble;
 	CGrTexture m_marble2;
 };
