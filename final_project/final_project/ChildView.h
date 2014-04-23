@@ -67,6 +67,7 @@ private:
 
 	UINT m_spintimer;
 	double m_spinangle;
+	int m_spinindex;
 
     CGrCamera       m_camera;
 

@@ -71,36 +71,32 @@ void CCylinder::Draw()
 		for (int j=0; j<rings[i].size(); j++) {
 			glBegin(GL_QUADS);
 			// Bottom left corner
-			glVertex3d(rings[i][j].m_bottom.m_x,rings[i][j].m_bottom.m_y,rings[i][j].m_bottom.m_z);
+			glVertex3f(rings[i][j].m_bottom.m_x,rings[i][j].m_bottom.m_y,rings[i][j].m_bottom.m_z);
 
 			// Bottom right corner
-			glVertex3d(rings[i+1][j].m_bottom.m_x,rings[i+1][j].m_bottom.m_y,rings[i+1][j].m_bottom.m_z);
+			glVertex3f(rings[i+1][j].m_bottom.m_x,rings[i+1][j].m_bottom.m_y,rings[i+1][j].m_bottom.m_z);
 
 			// Top right corner
-			glVertex3d(rings[i+1][j].m_top.m_x,rings[i+1][j].m_top.m_y,rings[i+1][j].m_top.m_z);
+			glVertex3f(rings[i+1][j].m_top.m_x,rings[i+1][j].m_top.m_y,rings[i+1][j].m_top.m_z);
 
 			// Top left corner
-			glVertex3d(rings[i][j].m_top.m_x,rings[i][j].m_top.m_y,rings[i][j].m_top.m_z);
+			glVertex3f(rings[i][j].m_top.m_x,rings[i][j].m_top.m_y,rings[i][j].m_top.m_z);
 			glEnd();
 		}
-
-		/*if (!caps.empty()) {
-			glBegin(GL_POLYGON);
-			if (i==0) {
-				glNormal3d(-1, 0, 0);
-				for (int j=0; j<caps.size(); j++) {
-					glVertex3f(caps[j].m_x,caps[j].m_y,caps[j].m_z);
-				}
-			} else {
-				 glNormal3d(-1, 0, 0);
-				 for (int j=caps.size()-1; j>=0; j--) {
-					glVertex3f(caps[j].m_x,caps[j].m_y,caps[j].m_z);
-				}
-			}
-			glEnd();
-		}*/
 	}
-
+	
+	glBegin(GL_POLYGON);
+	glNormal3d(-1, 0, 0);
+	for (int i=0; i<rings[0].size(); i++) {
+		glVertex3f(rings[0][i].m_bottom.m_x,rings[0][i].m_bottom.m_y,rings[0][i].m_bottom.m_z);
+		glVertex3f(rings[0][i].m_top.m_x,rings[0][i].m_top.m_y,rings[0][i].m_top.m_z);
+	}
+	glNormal3d(1, 0, 0);
+	for (int i=rings[rings.size()-1].size()-1; i>=0; i--) {
+		glVertex3f(rings[rings.size()-1][i].m_bottom.m_x,rings[rings.size()-1][i].m_bottom.m_y,rings[rings.size()-1][i].m_bottom.m_z);
+		glVertex3f(rings[rings.size()-1][i].m_top.m_x,rings[rings.size()-1][i].m_top.m_y,rings[rings.size()-1][i].m_top.m_z);
+	}
+	glEnd();
 }
 
 void CCylinder::CylinderVertex(double angle, double radius, double *vertex, double *normal)

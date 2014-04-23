@@ -22,6 +22,7 @@ CChildView::CChildView()
 
     m_spinangle = 0;
     m_spintimer = 0;
+	m_spinindex = 0;
 
     SetDoubleBuffer(true);
 	//m_woodgrain.LoadFile(L"textures/woodgrain.jpg");
@@ -120,7 +121,6 @@ void CChildView::OnGLDraw(CDC *pDC)
 
 void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	int index = 0;
 	switch (nChar) {
 	case VK_SPACE:
 		// Reset
@@ -130,31 +130,26 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		break;
 	case VK_UP:
 		m_chisel.SetDepth(m_chisel.Depth()-.1);
-		m_cylinder.Deform(m_chisel.Position(),m_chisel.Depth(),index);
+		m_cylinder.Deform(m_chisel.Position(),m_chisel.Depth(),m_spinindex);
 		Invalidate();
 		break;
 	case VK_DOWN:
 		m_chisel.SetDepth(m_chisel.Depth()+.1);
-		m_cylinder.Deform(m_chisel.Position(),m_chisel.Depth(),index);
+		m_cylinder.Deform(m_chisel.Position(),m_chisel.Depth(),m_spinindex);
 		Invalidate();
 		break;
 	case VK_LEFT:
 		m_chisel.SetPosition(m_chisel.Position()-1);
-		m_cylinder.Deform(m_chisel.Position(),m_chisel.Depth(),index);
+		m_cylinder.Deform(m_chisel.Position(),m_chisel.Depth(),m_spinindex);
 		Invalidate();
 		break;
 	case VK_RIGHT:
 		m_chisel.SetPosition(m_chisel.Position()+1);
-		m_cylinder.Deform(m_chisel.Position(),m_chisel.Depth(),index);
+		m_cylinder.Deform(m_chisel.Position(),m_chisel.Depth(),m_spinindex);
 		Invalidate();
 		break;
 	}
 	COpenGLWnd::OnKeyDown(nChar, nRepCnt, nFlags);
-}
-
-double Normal3dv(double *v)
-{
-    return sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
 }
 
 void CChildView::OnViewWireframe()
@@ -172,7 +167,7 @@ void CChildView::DrawCylinder()
 {
     glPushMatrix();
 
-    glRotated(m_spinangle / 3, 1, 0, 0);
+    glRotated(m_spinangle, 1, 0, 0);
 
     m_cylinder.Draw();
 
@@ -205,6 +200,12 @@ void CChildView::OnUpdateStepSpin(CCmdUI* pCmdUI)
 void CChildView::OnTimer(UINT nIDEvent) 
 {
     m_spinangle += 360./m_cylinder.CircumSteps();
+	m_spinindex++;
+	if (m_spinindex == m_cylinder.CircumSteps()) {
+		m_spinangle = 0;
+		m_spinindex = 0;
+	}
+	m_cylinder.Deform(m_chisel.Position(),m_chisel.Depth(),m_spinindex);
     Invalidate();
 
     COpenGLWnd ::OnTimer(nIDEvent);
@@ -238,20 +239,6 @@ BOOL CChildView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
     Invalidate();
 
     return COpenGLWnd::OnMouseWheel(nFlags, zDelta, pt);
-}
-
-double length3dv(double *v)
-{
-   return sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
-}
-
-void normal(double *v1, double *v2, double *normal)
-{
-   GLdouble v1xv2[] = {v1[1] * v2[2] - v2[1] * v1[2], v1[2] * v2[0] - v2[2] * v1[0], v1[0] * v2[1] - v2[0] * v1[1]};
-   double len = length3dv(v1xv2);
-   normal[0] = v1xv2[0] / len;
-   normal[1] = v1xv2[1] / len;
-   normal[2] = v1xv2[2] / len;
 }
 
 //
