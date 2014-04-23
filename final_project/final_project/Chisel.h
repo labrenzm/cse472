@@ -7,5 +7,9 @@ public:
 	virtual ~CChisel(void);
 
 	void Draw();
+	void SetPosition(double position) { m_position = position; }
+
+private:
+	double m_position;
 };
 

@@ -25,6 +25,7 @@ CChildView::CChildView()
 
     SetDoubleBuffer(true);
 
+	m_chiselPosition = 0;
 	//m_woodgrain.LoadFile(L"textures/woodgrain.jpg");
 	//m_cylinder.SetTexture(&m_woodgrain);
 }
@@ -33,8 +34,9 @@ CChildView::~CChildView()
 {
 }
 
-BEGIN_MESSAGE_MAP(CChildView,COpenGLWnd )
+BEGIN_MESSAGE_MAP(CChildView,COpenGLWnd)
     //{{AFX_MSG_MAP(CChildView)
+	ON_WM_KEYDOWN()
     ON_COMMAND(ID_STEP_SPIN, OnStepSpin)
     ON_UPDATE_COMMAND_UI(ID_STEP_SPIN, OnUpdateStepSpin)
     ON_WM_TIMER()
@@ -119,6 +121,24 @@ void CChildView::OnGLDraw(CDC *pDC)
     glFlush();
 }
 
+void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	switch (nChar) {
+	case VK_SPACE:
+		
+		break;
+	case VK_LEFT:
+		m_chiselPosition--;
+		Invalidate();
+		break;
+	case VK_RIGHT:
+		m_chiselPosition++;
+		Invalidate();
+		break;
+	}
+	COpenGLWnd::OnKeyDown(nChar, nRepCnt, nFlags);
+}
+
 double Normal3dv(double *v)
 {
     return sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
@@ -148,6 +168,7 @@ void CChildView::DrawCylinder()
 
 void CChildView::DrawChisel()
 {
+	m_chisel.SetPosition(m_chiselPosition);
 	m_chisel.Draw();
 }
 
