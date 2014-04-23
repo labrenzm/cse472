@@ -91,6 +91,8 @@ void CCylinder::Draw()
 		glVertex3f(rings[0][i].m_bottom.m_x,rings[0][i].m_bottom.m_y,rings[0][i].m_bottom.m_z);
 		glVertex3f(rings[0][i].m_top.m_x,rings[0][i].m_top.m_y,rings[0][i].m_top.m_z);
 	}
+	glEnd();
+	glBegin(GL_POLYGON);
 	glNormal3d(1, 0, 0);
 	for (int i=rings[rings.size()-1].size()-1; i>=0; i--) {
 		glVertex3f(rings[rings.size()-1][i].m_bottom.m_x,rings[rings.size()-1][i].m_bottom.m_y,rings[rings.size()-1][i].m_bottom.m_z);
