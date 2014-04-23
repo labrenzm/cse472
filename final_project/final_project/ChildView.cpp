@@ -108,12 +108,12 @@ void CChildView::OnGLDraw(CDC *pDC)
     // Enable or disable the wireframe mode
 	glPolygonMode(GL_FRONT, m_wireframe ? GL_LINE : GL_FILL);
 
-    glPushMatrix();
-	DrawCylinder();
-	glPopMatrix();
-
 	glPushMatrix();
 	DrawChisel();
+	glPopMatrix();
+
+    glPushMatrix();
+	DrawCylinder();
 	glPopMatrix();
 
     glFlush();
@@ -168,7 +168,6 @@ void CChildView::DrawCylinder()
     glPushMatrix();
 
     glRotated(m_spinangle, 1, 0, 0);
-
     m_cylinder.Draw();
 
     glPopMatrix();
@@ -176,7 +175,11 @@ void CChildView::DrawCylinder()
 
 void CChildView::DrawChisel()
 {
+	glPushMatrix();
+
 	m_chisel.Draw();
+
+	glPopMatrix();
 }
 
 void CChildView::OnStepSpin() 
