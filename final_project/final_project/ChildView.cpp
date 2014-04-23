@@ -20,12 +20,10 @@ CChildView::CChildView()
 	m_wireframe = false;
     m_camera.Set(15, 10, 30, 0, 0, 0, 0, 1, 0);
 
-    m_spinangle = 0.;
+    m_spinangle = 0;
     m_spintimer = 0;
 
     SetDoubleBuffer(true);
-
-	m_chiselPosition = 0;
 	//m_woodgrain.LoadFile(L"textures/woodgrain.jpg");
 	//m_cylinder.SetTexture(&m_woodgrain);
 }
@@ -114,7 +112,6 @@ void CChildView::OnGLDraw(CDC *pDC)
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslated(0, 0, 3);
 	DrawChisel();
 	glPopMatrix();
 
@@ -123,16 +120,32 @@ void CChildView::OnGLDraw(CDC *pDC)
 
 void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
+	int index = 0;
 	switch (nChar) {
 	case VK_SPACE:
-		
+		// Reset
+		m_chisel.SetDepth(3);
+		m_chisel.SetPosition(0);
+		Invalidate();
+		break;
+	case VK_UP:
+		m_chisel.SetDepth(m_chisel.Depth()-.1);
+		m_cylinder.Deform(m_chisel.Position(),m_chisel.Depth(),index);
+		Invalidate();
+		break;
+	case VK_DOWN:
+		m_chisel.SetDepth(m_chisel.Depth()+.1);
+		m_cylinder.Deform(m_chisel.Position(),m_chisel.Depth(),index);
+		Invalidate();
 		break;
 	case VK_LEFT:
-		m_chiselPosition--;
+		m_chisel.SetPosition(m_chisel.Position()-1);
+		m_cylinder.Deform(m_chisel.Position(),m_chisel.Depth(),index);
 		Invalidate();
 		break;
 	case VK_RIGHT:
-		m_chiselPosition++;
+		m_chisel.SetPosition(m_chisel.Position()+1);
+		m_cylinder.Deform(m_chisel.Position(),m_chisel.Depth(),index);
 		Invalidate();
 		break;
 	}
@@ -168,7 +181,6 @@ void CChildView::DrawCylinder()
 
 void CChildView::DrawChisel()
 {
-	m_chisel.SetPosition(m_chiselPosition);
 	m_chisel.Draw();
 }
 
@@ -192,7 +204,7 @@ void CChildView::OnUpdateStepSpin(CCmdUI* pCmdUI)
 
 void CChildView::OnTimer(UINT nIDEvent) 
 {
-    m_spinangle += 10;
+    m_spinangle += 360./m_cylinder.CircumSteps();
     Invalidate();
 
     COpenGLWnd ::OnTimer(nIDEvent);

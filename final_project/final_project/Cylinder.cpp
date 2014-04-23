@@ -1,23 +1,12 @@
 #include "stdafx.h"
 #include "Cylinder.h"
 
-#include <vector>
 #include <cmath>
 #include "gl/gl.h"
 
 const double GR_PI = 3.1415926535897932384626433832795;
 
 using namespace std;
-
-struct vertex {
-	vertex(double x, double y, double z) {
-		m_x = x; m_y = y; m_z = z;
-	}
-
-	double m_x;
-	double m_y;
-	double m_z;
-};
 
 // Based heavily off of CTorus code
 
@@ -28,10 +17,45 @@ CCylinder::CCylinder(void)
 	m_length = 50;
 	m_lengthSteps = 50;
 	m_circumSteps = 50;
+
+	InitRings();
 }
 
 CCylinder::~CCylinder(void)
 {
+}
+
+void CCylinder::InitRings()
+{
+	rings.clear();
+
+	// How large are the angular steps in radians
+	const double circumStepsR = 2. * GR_PI / m_circumSteps;
+	double x = 0;
+
+	for (int i=0; i<m_lengthSteps; i++, x+=m_length/m_lengthSteps) {
+		double angle = 0;
+		vector<segment> ring;
+		for (int j=0; j<m_circumSteps; j++) {
+			vertex vBottom(x,sin(angle)*m_radius,cos(angle)*m_radius,angle);
+			angle += circumStepsR;
+			vertex vTop(x,sin(angle)*m_radius,cos(angle)*m_radius,angle);
+			segment s(vBottom,vTop);
+			ring.push_back(s);
+		}
+		rings.push_back(ring);
+	}
+}
+
+void CCylinder::Deform(double position, double depth, int vertex)
+{
+	if (position < 0 || position >= rings.size()) return;
+	if (depth > m_radius || m_radius-(m_radius-depth)<0 ) return;
+
+		rings[position][vertex].m_bottom.m_y = sin(rings[position][vertex].m_bottom.m_angle)*(m_radius-(m_radius-depth));
+		rings[position][vertex].m_bottom.m_z = cos(rings[position][vertex].m_bottom.m_angle)*(m_radius-(m_radius-depth));
+		rings[position][vertex].m_top.m_y = sin(rings[position][vertex].m_top.m_angle)*(m_radius-(m_radius-depth));
+		rings[position][vertex].m_top.m_z = cos(rings[position][vertex].m_top.m_angle)*(m_radius-(m_radius-depth));
 }
 
 void CCylinder::Draw()
@@ -43,54 +67,24 @@ void CCylinder::Draw()
         glBindTexture(GL_TEXTURE_2D, m_texture->TexName()); 
 	}
 
-	// How large are the angular steps in radians
-	const double circumStepsR = 2. * GR_PI / m_circumSteps;
-	double x = 0;
-
-	for (int i=0; i<m_lengthSteps; i++, x+=m_length/m_lengthSteps) {
-		double angle = 0;
-		vector<vertex> caps;
-
-		for (int j=0; j<m_circumSteps; j++) {
-			double n[3], v[3];
-
+	for (int i=0; i<rings.size()-1; i++) {
+		for (int j=0; j<rings[i].size(); j++) {
 			glBegin(GL_QUADS);
-
 			// Bottom left corner
-			v[0] = x;
-			v[1] = sin(angle)*m_radius;
-			v[2] = cos(angle)*m_radius;
-			glVertex3dv(v);
+			glVertex3d(rings[i][j].m_bottom.m_x,rings[i][j].m_bottom.m_y,rings[i][j].m_bottom.m_z);
 
 			// Bottom right corner
-			v[0] = x+m_length/m_lengthSteps;
-			v[1] = sin(angle)*m_radius;
-			v[2] = cos(angle)*m_radius;
-			glVertex3dv(v);
-
-			angle += circumStepsR;
+			glVertex3d(rings[i+1][j].m_bottom.m_x,rings[i+1][j].m_bottom.m_y,rings[i+1][j].m_bottom.m_z);
 
 			// Top right corner
-			v[0] = x+m_length/m_lengthSteps;
-			v[1] = sin(angle)*m_radius;
-			v[2] = cos(angle)*m_radius;
-			glVertex3dv(v);
-
-			if (i==m_lengthSteps-1) caps.push_back(vertex(v[0],v[1],v[2]));
+			glVertex3d(rings[i+1][j].m_top.m_x,rings[i+1][j].m_top.m_y,rings[i+1][j].m_top.m_z);
 
 			// Top left corner
-			v[0] = x;
-			v[1] = sin(angle)*m_radius;
-			v[2] = cos(angle)*m_radius;
-			glVertex3dv(v);
-
-			// Add caps
-			if (i==0) caps.push_back(vertex(v[0],v[1],v[2]));
-
+			glVertex3d(rings[i][j].m_top.m_x,rings[i][j].m_top.m_y,rings[i][j].m_top.m_z);
 			glEnd();
 		}
 
-		if (!caps.empty()) {
+		/*if (!caps.empty()) {
 			glBegin(GL_POLYGON);
 			if (i==0) {
 				glNormal3d(-1, 0, 0);
@@ -104,7 +98,7 @@ void CCylinder::Draw()
 				}
 			}
 			glEnd();
-		}
+		}*/
 	}
 
 }

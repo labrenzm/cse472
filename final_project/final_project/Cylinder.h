@@ -1,6 +1,9 @@
 #pragma once
 
+#include <vector>
+
 #include "graphics/GrTexture.h"
+#include "common.h"
 
 class CCylinder
 {
@@ -10,8 +13,11 @@ public:
 
 	void SetTexture(CGrTexture *texture) {m_texture = texture;}
     CGrTexture *GetTexture() {return m_texture;}
+	double CircumSteps() {return m_circumSteps;}
 
 	void Draw();
+	void InitRings();
+	void Deform(double position, double depth, int vertex = 0);
 
 private:
 	void CylinderVertex(double angle, double radius, double *vertex, double *normal);
@@ -20,6 +26,8 @@ private:
 	double m_length;
 	double m_lengthSteps;
 	double m_circumSteps;
+
+	std::vector<std::vector<segment>> rings;
 
 	CGrTexture* m_texture;
 };

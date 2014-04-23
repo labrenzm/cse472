@@ -175,6 +175,7 @@
     <ClInclude Include="ChildView.h" />
     <ClInclude Include="..\..\hackedheader\gl.h" />
     <ClInclude Include="Chisel.h" />
+    <ClInclude Include="common.h" />
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="graphics\GrCamera.h" />
     <ClInclude Include="graphics\GrTexture.h" />
