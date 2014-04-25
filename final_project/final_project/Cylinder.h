@@ -17,6 +17,8 @@ public:
 
 	void Draw();
 	void InitRings();
+	void SetLength(double length) {m_length = length;}
+	void SetRadius(double radius) {m_radius = radius;}
 	void Deform(double position, double depth, int vertex = 0);
 
 private:

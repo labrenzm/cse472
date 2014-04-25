@@ -17,6 +17,13 @@ static char THIS_FILE[] = __FILE__;
 
 CChildView::CChildView()
 {
+	m_wood.LoadFile(L"textures/wood.bmp");
+	m_wood_leg.LoadFile(L"textures/wood_leg.bmp");
+	m_wood_holder.LoadFile(L"textures/wood_holder.bmp");
+	m_environment.SetTexture(&m_wood);
+	m_environment.SetTexture_Leg(&m_wood_leg);
+	m_environment.SetTexture_Holder(&m_wood_holder);
+
 	m_wireframe = false;
     m_camera.Set(15, 10, 30, 0, 0, 0, 0, 1, 0);
 
@@ -25,8 +32,7 @@ CChildView::CChildView()
 	m_spinindex = 0;
 
     SetDoubleBuffer(true);
-	//m_woodgrain.LoadFile(L"textures/woodgrain.jpg");
-	//m_cylinder.SetTexture(&m_woodgrain);
+
 }
 
 CChildView::~CChildView()
@@ -108,12 +114,19 @@ void CChildView::OnGLDraw(CDC *pDC)
     // Enable or disable the wireframe mode
 	glPolygonMode(GL_FRONT, m_wireframe ? GL_LINE : GL_FILL);
 
+	
+
+    glPushMatrix();
+	DrawCylinder();
+	glPopMatrix();
+
 	glPushMatrix();
 	DrawChisel();
 	glPopMatrix();
 
-    glPushMatrix();
-	DrawCylinder();
+	glPushMatrix();
+	glTranslated(-10,-7, -15);
+	DrawEnvironment();
 	glPopMatrix();
 
     glFlush();
@@ -168,6 +181,7 @@ void CChildView::DrawCylinder()
     glPushMatrix();
 
     glRotated(m_spinangle, 1, 0, 0);
+
     m_cylinder.Draw();
 
     glPopMatrix();
@@ -175,13 +189,13 @@ void CChildView::DrawCylinder()
 
 void CChildView::DrawChisel()
 {
-	glPushMatrix();
-
 	m_chisel.Draw();
-
-	glPopMatrix();
 }
 
+void CChildView::DrawEnvironment()
+{
+	m_environment.Draw();
+}
 void CChildView::OnStepSpin() 
 {
     if(m_spintimer)
