@@ -58,6 +58,20 @@ void CCylinder::Deform(double position, double depth, int vertex)
 		rings[position][vertex].m_top.m_z = cos(rings[position][vertex].m_top.m_angle)*(m_radius-(m_radius-depth));
 }
 
+double length3dv(double *v)
+{
+   return sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+}
+ 
+void normal(double *v1, double *v2, double *normal)
+{
+   GLdouble v1xv2[] = {v1[1] * v2[2] - v2[1] * v1[2], v1[2] * v2[0] - v2[2] * v1[0], v1[0] * v2[1] - v2[0] * v1[1]};
+   double len = length3dv(v1xv2);
+   normal[0] = v1xv2[0] / len;
+   normal[1] = v1xv2[1] / len;
+   normal[2] = v1xv2[2] / len;
+}
+
 void CCylinder::Draw()
 {
 	if(m_texture != NULL)
@@ -70,6 +84,14 @@ void CCylinder::Draw()
 	for (int i=0; i<rings.size()-1; i++) {
 		for (int j=0; j<rings[i].size(); j++) {
 			glBegin(GL_QUADS);
+
+			GLdouble topleftbottomleft[] = {rings[i][j].m_bottom.m_x - rings[i][j].m_top.m_x, rings[i][j].m_bottom.m_y - rings[i][j].m_top.m_y, rings[i][j].m_bottom.m_z - rings[i][j].m_top.m_z};
+			GLdouble toplefttopright[] = {rings[i+1][j].m_top.m_x - rings[i][j].m_top.m_x, rings[i+1][j].m_top.m_y - rings[i][j].m_top.m_y, rings[i+1][j].m_top.m_z - rings[i][j].m_top.m_z};
+
+			GLdouble abxac[3];
+			normal(topleftbottomleft,toplefttopright,abxac);
+			glNormal3d(abxac[0], abxac[1], abxac[2]);
+
 			// Bottom left corner
 			glVertex3f(rings[i][j].m_bottom.m_x,rings[i][j].m_bottom.m_y,rings[i][j].m_bottom.m_z);
 
@@ -84,7 +106,7 @@ void CCylinder::Draw()
 			glEnd();
 		}
 	}
-	
+	glEnd();
 	glBegin(GL_POLYGON);
 	glNormal3d(-1, 0, 0);
 	for (int i=0; i<rings[0].size(); i++) {

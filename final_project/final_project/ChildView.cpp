@@ -32,7 +32,8 @@ CChildView::CChildView()
 	m_spinindex = 0;
 
     SetDoubleBuffer(true);
-
+	m_woodgrain.LoadFile(L"textures/woodgrain.jpg");
+ 	m_cylinder.SetTexture(&m_woodgrain);
 }
 
 CChildView::~CChildView()
@@ -189,7 +190,9 @@ void CChildView::DrawCylinder()
 
 void CChildView::DrawChisel()
 {
+	glPushMatrix();
 	m_chisel.Draw();
+	glPopMatrix();
 }
 
 void CChildView::DrawEnvironment()
